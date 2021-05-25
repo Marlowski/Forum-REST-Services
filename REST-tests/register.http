@@ -1,0 +1,25 @@
+//Register new account -> send mail token
+// @no-log
+POST https://localhost:443/register
+Content-Type: application/json
+
+{
+  "username": "uniqueName",
+  "email": "marlonkerth@web.de",
+  "password": "password"
+}
+
+
+### get token by login with registered credentials in user.http (currently using default first registered user account: 2:password)
+### resend verification email -> only works if user ist still 'registered' and not already user
+POST https://localhost:443/users/resend-verification
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiMiIsInJvbGUiOiJyZWdpc3RlcmVkIiwiaWF0IjoxNjIxMTc0MjMwLCJleHAiOjE2MjI3OTU3MDUxMDh9.xuJ2VaBLSN11U2Jaaezn0ABWFoYnRScBO5uWN4sPPVo
+
+
+### verify new account (paste created token)
+https://localhost:443/register/verify?mailtoken=lwK6oFYFkaCsfX95W4eYVewo6
+
+
+### relog for new token (2:password)
+POST https://localhost:443/authenticate/login
+Authorization: Basic MjpwYXNzd29yZA==

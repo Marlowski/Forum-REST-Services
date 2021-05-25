@@ -1,0 +1,32 @@
+#send message (fully register / or admin add a new user first)
+#if user has an email, he gets a notification including the message
+POST https://localhost:443/messages/send
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiMiIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNjIxMjAyMjc0LCJleHAiOjE2MjI4MjM3NzY4NDJ9.exmgjYmcObyDuzd0LDS_d_yXqkAJBNxg06-vv-14KjM
+Content-Type: application/json
+
+{
+  "toUsername": "admin-user",
+  "subject": "Help",
+  "text": "Hello, where can i change my password?"
+}
+
+
+###expected to have registered and verified user with UserId:2 in db existing
+### get all messages sent to user
+https://localhost:443/messages
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiMSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTYyMTIwNDA3NSwiZXhwIjoxNjIyODI1NTc5NTg2fQ.1rFFYrzo9d9k_u5XvCP70a9wcWxWHbZKi1Ghr0jxTXE
+
+
+### get all messages that were sent by the user
+https://localhost:443/messages/sent-messages
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiMiIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNjIxMjAyMjc0LCJleHAiOjE2MjI4MjM3NzY4NDJ9.exmgjYmcObyDuzd0LDS_d_yXqkAJBNxg06-vv-14KjM
+
+
+### read a specific message that was sent to the user (paste ObjectId from database here)
+https://localhost:443/messages/open?id=60aacd5ebdb5963e8721d3b1&action=read
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiMSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTYyMTIwNDA3NSwiZXhwIjoxNjIyODI1NTc5NTg2fQ.1rFFYrzo9d9k_u5XvCP70a9wcWxWHbZKi1Ghr0jxTXE
+
+
+###delete specific message that was sent to the user (paste ObjectId from database here)
+https://localhost:443/messages/open?id=60aad079651970400bc01a2c&action=delete
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiMSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTYyMTIwNDA3NSwiZXhwIjoxNjIyODI1NTc5NTg2fQ.1rFFYrzo9d9k_u5XvCP70a9wcWxWHbZKi1Ghr0jxTXE

@@ -1,0 +1,8 @@
+# Project exclude paths
+/node_modules/
+/logs/
+/IGNORE
+.idea
+*.iml
+/config/default.json
+certificates/*.pem

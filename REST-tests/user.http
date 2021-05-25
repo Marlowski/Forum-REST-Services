@@ -1,0 +1,40 @@
+### Admin-login - 1:password
+// @no-log
+POST https://localhost:443/authenticate/login
+Authorization: Basic MTpwYXNzd29yZA==
+
+
+### list all users (admin token)
+// @no-log
+https://localhost:443/users
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiMSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTYyMTE3NDQxMywiZXhwIjoxNjIyNzk1ODg3NTE5fQ.M-Rm9DUUIs_PzgVEV1ICDOOasVFjIgAezhSsHy6FWSk
+
+
+### change password (user changes his own password)
+// @no-log
+POST https://localhost:443/users/change-password
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiMiIsInJvbGUiOiJyZWdpc3RlcmVkIiwiaWF0IjoxNjIxMTc0MjMwLCJleHAiOjE2MjI3OTU3MDUxMDh9.xuJ2VaBLSN11U2Jaaezn0ABWFoYnRScBO5uWN4sPPVo
+Content-Type: application/json
+
+{
+  "password": "password2"
+}
+
+
+### change password (user trying to change other users password)
+// @no-log
+POST https://localhost:443/users/change-password
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiMiIsInJvbGUiOiJyZWdpc3RlcmVkIiwiaWF0IjoxNjIxMTc0MjMwLCJleHAiOjE2MjI3OTU3MDUxMDh9.xuJ2VaBLSN11U2Jaaezn0ABWFoYnRScBO5uWN4sPPVo
+Content-Type: application/json
+
+{
+  "userID": "1",
+  "password": "password2"
+}
+
+
+### loged in user checking different user-profils (or his own by not providing info), by getting user data with either email, username or userID
+//@no-log
+POST https://localhost:443/users/profil
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiMiIsInJvbGUiOiJyZWdpc3RlcmVkIiwiaWF0IjoxNjIxMTc0MjMwLCJleHAiOjE2MjI3OTU3MDUxMDh9.xuJ2VaBLSN11U2Jaaezn0ABWFoYnRScBO5uWN4sPPVo
+

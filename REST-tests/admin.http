@@ -1,0 +1,20 @@
+### admin creating new account
+POST https://localhost:443/users/create
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiMSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTYyMTE3NDQxMywiZXhwIjoxNjIyNzk1ODg3NTE5fQ.M-Rm9DUUIs_PzgVEV1ICDOOasVFjIgAezhSsHy6FWSk
+Content-Type: application/json
+
+{
+  "username": "admin-created-user",
+  "password": "password",
+  "email": "userNew@email.com",
+  "role": "user"
+}
+
+### admin deleting user account
+POST https://localhost:443/users/delete
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiMSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTYyMTE3NDQxMywiZXhwIjoxNjIyNzk1ODg3NTE5fQ.M-Rm9DUUIs_PzgVEV1ICDOOasVFjIgAezhSsHy6FWSk
+Content-Type: application/json
+
+{
+  "userID": "2"
+}

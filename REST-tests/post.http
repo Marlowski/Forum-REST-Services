@@ -1,0 +1,54 @@
+### create post
+POST https://localhost:443/post/create
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiMSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTYyMTE3NDQxMywiZXhwIjoxNjIyNzk1ODg3NTE5fQ.M-Rm9DUUIs_PzgVEV1ICDOOasVFjIgAezhSsHy6FWSk
+Content-Type: application/json
+
+{
+  "title": "Post title",
+  "content": "Post content",
+  "forumName": "Guides"
+}
+
+### view all posts in a specific forum
+POST https://localhost:443/forum/posts
+Content-Type: application/json
+
+{
+  "forumName": "Guides"
+}
+
+### user trying to delete post from other user (copy ObjectId from db)
+POST https://localhost:443/post/delete
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiMiIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNjIxMjAyMjc0LCJleHAiOjE2MjI4MjM3NzY4NDJ9.exmgjYmcObyDuzd0LDS_d_yXqkAJBNxg06-vv-14KjM
+Content-Type: application/json
+
+{
+  "postId": "60aad2e19bb01441de37f0f0"
+}
+
+### edit post (copy ObjectId from db)
+POST https://localhost:443/post/edit
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiMSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTYyMTE3NDQxMywiZXhwIjoxNjIyNzk1ODg3NTE5fQ.M-Rm9DUUIs_PzgVEV1ICDOOasVFjIgAezhSsHy6FWSk
+Content-Type: application/json
+
+{
+  "postId":"60aad2e19bb01441de37f0f0",
+  "content": "edited content!"
+}
+
+### view specific post (copy ObjectId from db for postId)
+https://localhost:443/post/view?postId=60aad2e19bb01441de37f0f0
+
+### view all posts created by user
+https://localhost:443/post/own
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiMSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTYyMTE3NDQxMywiZXhwIjoxNjIyNzk1ODg3NTE5fQ.M-Rm9DUUIs_PzgVEV1ICDOOasVFjIgAezhSsHy6FWSk
+
+
+### user deleting own post (copy ObjectId from db)
+POST https://localhost:443/post/delete
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiMSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTYyMTE3NDQxMywiZXhwIjoxNjIyNzk1ODg3NTE5fQ.M-Rm9DUUIs_PzgVEV1ICDOOasVFjIgAezhSsHy6FWSk
+Content-Type: application/json
+
+{
+  "postId": "60aad2e19bb01441de37f0f0"
+}

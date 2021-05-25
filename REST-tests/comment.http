@@ -1,0 +1,60 @@
+### create post to use for upcoming tests
+POST https://localhost:443/post/create
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiMSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTYyMTE3NDQxMywiZXhwIjoxNjIyNzk1ODg3NTE5fQ.M-Rm9DUUIs_PzgVEV1ICDOOasVFjIgAezhSsHy6FWSk
+Content-Type: application/json
+
+{
+  "title": "Post with comments",
+  "content": "This post will soon have some comments!",
+  "forumName": "Guides"
+}
+
+### create comment (paste ObjectId from db)
+POST https://localhost:443/comment/write
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiMSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTYyMTE3NDQxMywiZXhwIjoxNjIyNzk1ODg3NTE5fQ.M-Rm9DUUIs_PzgVEV1ICDOOasVFjIgAezhSsHy6FWSk
+Content-Type: application/json
+
+{
+  "postId": "60aacb9ec3e4483e6bf2e6ae",
+  "content": "awesome post!"
+}
+
+### User trying to delete other users comment (paste ObjectId from db)
+POST https://localhost:443/comment/delete
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiMiIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNjIxMjAyMjc0LCJleHAiOjE2MjI4MjM3NzY4NDJ9.exmgjYmcObyDuzd0LDS_d_yXqkAJBNxg06-vv-14KjM
+Content-Type: application/json
+
+{
+  "commentId": "60aacbcdc3e4483e6bf2e6af"
+}
+
+### edit comment (paste ObjectId from db)
+POST https://localhost:443/comment/edit
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiMSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTYyMTE3NDQxMywiZXhwIjoxNjIyNzk1ODg3NTE5fQ.M-Rm9DUUIs_PzgVEV1ICDOOasVFjIgAezhSsHy6FWSk
+Content-Type: application/json
+
+{
+  "commentId": "60aacbcdc3e4483e6bf2e6af",
+  "content": "i updated my comment!"
+}
+
+### show all comments from user
+GET https://localhost:443/comment/own
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiMSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTYyMTE3NDQxMywiZXhwIjoxNjIyNzk1ODg3NTE5fQ.M-Rm9DUUIs_PzgVEV1ICDOOasVFjIgAezhSsHy6FWSk
+
+### view all comments from a post
+POST https://localhost:443/post/comments
+Content-Type: application/json
+
+{
+  "postId": "60aad2e19bb01441de37f0f0"
+}
+
+### delete comment (paste ObjectId from db)
+POST https://localhost:443/comment/delete
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiMSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTYyMTE3NDQxMywiZXhwIjoxNjIyNzk1ODg3NTE5fQ.M-Rm9DUUIs_PzgVEV1ICDOOasVFjIgAezhSsHy6FWSk
+Content-Type: application/json
+
+{
+  "commentId": "60aacbcdc3e4483e6bf2e6af"
+}
