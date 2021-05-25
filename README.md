@@ -87,12 +87,12 @@ beforehand.
 ##Basic testing
 ####In the following section the different test file requirements and purposes are explained in detail:
 **********
-###[admin.http](admin.http)
+###[admin.http](REST-tests/admin.http)
 * **manually create user as admin**
 * **manually delete user as admin**
 
 *************
-###[register.http](register.http)
+###[register.http](REST-tests/register.http)
 * **register new Account**
 <br/>Its important to <span style="color: red">paste a real email adress here</span> to receive the validation email,
 but can also be left like that, since the validation code is logged and can be copied from the console
@@ -114,7 +114,7 @@ but can also be left like that, since the validation code is logged and can be c
 ```
 
 *********
-###[user.http](user.http)
+###[user.http](REST-tests/user.http)
 * **login (here with admin account)**
 Even though this is the user file and not the admin file, the admin token is
 used, since this account doesnt need to be added manually
@@ -142,7 +142,7 @@ Content-Type: application/json
 ```
 
 *********
-###[message.http](message.http)
+###[message.http](REST-tests/message.http)
 * **send message to user**
 <br/>Send a private message to a user. Since by default the user passed an
   email adress when registering, he will get an email notification including
@@ -176,7 +176,7 @@ Content-Type: application/json
   ```
   
 *****
-###[newsletter.http](newsletter.http)
+###[newsletter.http](REST-tests/newsletter.http)
 * **subscribe to the newsletter**
 <br/>Subscribe to the newsletter (not subscribed by default)
 ####  
@@ -194,7 +194,7 @@ An admin can pass a *subject* and *text* to send as a newsletter to all currentl
   ```
 
 *****
-###[forum.http](forum.http) <span style="color: lightblue">- admin only functions</span>
+###[forum.http](REST-tests/forum.http) <span style="color: lightblue">- admin only functions</span>
 The REST-services provided in this file are only for potential usages in the future if
 a new forum beside the existing default ones is required
 ####
@@ -209,7 +209,7 @@ a new forum beside the existing default ones is required
 
 
 *****
-###[post.http](post.http)
+###[post.http](REST-tests/post.http)
 * **create post**
   ```json
     {
@@ -240,7 +240,7 @@ a new forum beside the existing default ones is required
 
 
 *****
-###[comment.http](comment.http)
+###[comment.http](REST-tests/comment.http)
 * **create comment**
   ```json
     {
@@ -263,7 +263,7 @@ a new forum beside the existing default ones is required
 
 *****
 <a id="chai" name="header"></a>
-#Chai testing<br/>[go to file](chai.js)
+#Chai testing<br/>[go to file](REST-tests/chai.js)
 Get an overview of each chai testing section,
 if it can be directly run from *describe* or needs some
 parameters, that are generated during the test run.
