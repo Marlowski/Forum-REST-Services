@@ -12,30 +12,29 @@ router.post('/login',function (req, res, next) {
     utility.decodeCredentials(req, function (err, userData) {
         if(err) {
             logger.error("no credentials were passed");
-            res.statusCode = 401;
-            res.setHeader('WWW-Authenticate','Basic realm="Secure Area"');
-            return res.json({ message:'Missing Auth. Header - please pass data!'});
-        }
-
-    //create token for user
-    logger.debug('Try to create token');
-    authenticationService.createSessionToken(userData, function (err, token, user) {
-        if(token) {
-            res.header("Authorization", "Bearer " + token);
-            if(user) {
-                const { id, userID, username, ...partialObject } = user;
-                const subset = { id, userID, username };
-                logger.debug(JSON.stringify(subset));
-                res.send(subset);
-            } else {
-                logger.error("User is null, even though a token has been created. Error: " + err);
-                res.send('Created token, but user is null');
-            }
+            res.status(401).send({message: 'Missing login data!'});
         } else {
-            logger.error("Token has not been created, Error: " + err);
-            res.send('Could not create token');
+            //create token for user
+            logger.debug('Try to create token');
+            authenticationService.createSessionToken(userData, function (err, token, user) {
+                if(token) {
+                    res.header("Access-Control-Expose-Headers", "Authorization");
+                    res.header("Authorization", "Bearer " + token);
+                    if(user) {
+                        const { id, userID, username, role, newsletter, ...partialObject } = user;
+                        const subset = { id, userID, username, role, newsletter };
+                        logger.debug(JSON.stringify(subset));
+                        res.send({message: subset});
+                    } else {
+                        logger.error("User is null, even though a token has been created. Error: " + err);
+                        res.send({message: 'Created token, but user is null'});
+                    }
+                } else {
+                    logger.error("Token has not been created, Error: " + err);
+                    res.status(401).send({message: 'Could not create token'});
+                }
+            });
         }
-    });
 });
 
 });

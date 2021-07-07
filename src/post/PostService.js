@@ -4,6 +4,7 @@ const CommentSchema = require('../comments/CommentModel');
 const Comment = CommentSchema.Comment;
 const logger = require('../../config/winston');
 const forumService = require('../forum/ForumService');
+const userService = require('../user/userService');
 
 //data: title, forumName, content, postedId
 function createPost(data, callback) {
@@ -14,16 +15,24 @@ function createPost(data, callback) {
             let newPost = new Post();
             newPost.postTitle = data.title;
             newPost.forumID = forum._id;
-            newPost.postedByUserID = data.postedId;
-            newPost.content = data.content
 
-            newPost.save(function (err) {
-                if(err) {
-                    return callback("couldnt save post");
-                } else {
-                    logger.debug("post saved successfully");
-                    return callback(null);
-                }
+            userService.findUserById(data.postedId, function (err, user) {
+               if(err) {
+                   return callback("couldnt find user with userID: " + data.postedId);
+               } else {
+                   newPost.postedByUsername = user.username;
+                   newPost.content = data.content;
+                   newPost.postedByUserID = user._id;
+
+                   newPost.save(function (err) {
+                       if(err) {
+                           return callback("couldnt save post");
+                       } else {
+                           logger.debug("post saved successfully");
+                           return callback(null);
+                       }
+                   });
+               }
             });
         }
     });
@@ -40,37 +49,60 @@ function findPostById(postId, callback) {
         });
 }
 
-function deletePost(userId, postId, callback) {
+function deletePost(userId, postId, permitted, callback) {
     findPostById(postId, function (err, post) {
        if(err) {
            return callback(err, 500);
        }
-       else if(userId !== "permitted" && post.postedByUserID !== userId) {
-           return callback("You cant delete a post thats not your own!", 403);
-       } else {
-           Post.findByIdAndDelete(postId)
-               .exec(function (err) {
-                  if(err) {
-                      return callback("An error occurred during the deletion of the post", 500);
-                  } else {
-                      return callback(null, 200);
-                  }
-               });
-       }
+       userService.findUserById(userId, function (err, user) {
+           if (err) {
+               return callback("Couldn't find user", 500);
+           } else {
+               if(!permitted && post.postedByUserID !== user._id.toString()) {
+                   return callback("You cant delete a post thats not your own!", 403);
+               } else {
+                   Post.findById(postId)
+                       .exec(function (err, post) {
+                           if(err) {
+                               return callback("An error occurred during the deletion of the post", 500);
+                           } else {
+                               post.deleted = true;
+                               post.content = "[deleted]";
+                               post.postTitle = "[deleted]";
+
+                               post.save(function (err) {
+                                   if(err) {
+                                       return callback("couldnt update deletion post", 500);
+                                   } else {
+                                       logger.debug("post deletion updated successfully");
+                                       return callback(null, 200);
+                                   }
+                               });
+                           }
+                       });
+               }
+           }
+       });
     });
 }
 
 function findPostsFromUser(userId, callback) {
-    Post.find({ postedByUserID: userId })
-        .exec(function (err, posts) {
-           if(err || !posts) {
-               logger.debug("couldnt query for posts from userId: " + userId);
-               return callback("couldnt query for posts from userId: " + userId, null);
-           } else {
-               logger.debug("user posts found");
-               return callback(null, posts);
-           }
-        });
+    userService.findUserById(userId, function (err, user) {
+        if(err) {
+            return callback("couldnt find user");
+        } else {
+            Post.find({ postedByUserID: user._id, deleted: false })
+                .exec(function (err, posts) {
+                    if(err || !posts) {
+                        logger.debug("couldnt query for posts from userId: " + userId);
+                        return callback("couldnt query for posts from userId: " + userId, null);
+                    } else {
+                        logger.debug("user posts found");
+                        return callback(null, posts);
+                    }
+                });
+        }
+    });
 }
 
 function viewPost(postId, callback) {
@@ -82,8 +114,9 @@ function viewPost(postId, callback) {
               if(err) {
                   return callback(err, null);
               } else {
-                  const { postTitle, createdAt, postedByUserID, content, ...partialObject } = post;
-                  const subset = { postTitle, createdAt, postedByUserID, content };
+                  logger.debug("post & forum found");
+                  const { postTitle, createdAt, postedByUserID, postedByUsername, content, edited, ...partialObject } = post;
+                  const subset = { postTitle, createdAt, postedByUserID, postedByUsername, content, edited };
                   subset.forumName = forum.forumName;
                   return callback(null, subset);
               }
@@ -93,21 +126,29 @@ function viewPost(postId, callback) {
 }
 
 //data: userId, postId, title, content
-function updatePost(data, callback) {
+function updatePost(data, permitted, callback) {
     findPostById(data.postId, function (err, post) {
         if (err) {
             return callback(err, 500);
-        } else if (data.userId !== "permitted" && post.postedByUserID !== data.userId) {
-            return callback("You cant change a post thats not your own!", 403);
         } else {
-            if(data.title) { post.postTitle = data.title }
-            if(data.content) { post.content = data.content }
-            post.edited = true;
-            post.save(function (err) {
+            userService.findUserById(data.userId, function (err, user) {
                if(err) {
-                   return callback("An error occurred while trying to update the post", 500);
+                   return callback(err);
                } else {
-                   return callback(null, 200)
+                   if (!permitted && post.postedByUserID !== user._id.toString()) {
+                       return callback("You cant change a post thats not your own!", 403);
+                   } else {
+                       if(data.title) { post.postTitle = data.title }
+                       if(data.content) { post.content = data.content }
+                       post.edited = true;
+                       post.save(function (err) {
+                           if(err) {
+                               return callback("An error occurred while trying to update the post", 500);
+                           } else {
+                               return callback(null, 200)
+                           }
+                       });
+                   }
                }
             });
         }

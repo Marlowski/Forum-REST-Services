@@ -16,7 +16,7 @@ function sendVerificationMail(data, callback) {
     let mailOptions = {
         to: data.email,
         subject: "Campfire account verification",
-        html: "<h2>Welcome "+ data.username +"!</h2><br/><p>Click on the link below to finish the registration process of your campfire account!</p><br/>https://localhost/443/register/verify?"+ data.token +"<br/><p>This link will expire in 24 hours</p>"
+        html: "<h2>Welcome "+ data.username +"!</h2><br/><p>Click on the link below to finish the registration process of your campfire account!</p><br/>https://localhost:3000/verify?mailtoken="+ data.token +"<br/><p>This link will expire in 24 hours</p>"
     }
     smtpTransport.sendMail(mailOptions, function (err, response) {
         if(err) {

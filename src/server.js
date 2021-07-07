@@ -11,11 +11,13 @@ const https = require('https');
 const database = require('./database/db');
 const bodyParser = require('body-parser');
 const logger = require('../config/winston');
+const cors = require('cors');
 
 
 
 const app = express();
 const server = https.createServer({key: key, cert: cert}, app);
+app.use(cors());
 
 //necessary to be able to read JSON body
 app.use(bodyParser.json());
@@ -76,7 +78,7 @@ app.use(function (req, res, next) {
 });
 
 app.use(function (req, res, next, err) {
-    logger.error(err.stack);
+    logger.error(err);
     res.status(500).send('Something broke!');
 });
 

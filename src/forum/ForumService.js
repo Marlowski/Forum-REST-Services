@@ -107,8 +107,7 @@ function deleteForum(name, callback) {
 }
 
 function findPostsByForum(forumId, callback) {
-    Post.find({ forumID: forumId })
-        .select('postTitle postedByUserID content createdAt')
+    Post.find({ forumID: forumId, deleted: false })
         .exec(function (err, posts) {
             if(err) {
                 return callback("couldnt query for posts in forum", null);

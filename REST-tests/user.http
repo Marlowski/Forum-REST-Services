@@ -1,7 +1,7 @@
-### Admin-login - 1:password
+### Admin-login - admin-user:password
 // @no-log
 POST https://localhost:443/authenticate/login
-Authorization: Basic MTpwYXNzd29yZA==
+Authorization: Basic YWRtaW4tdXNlcjpwYXNzd29yZA==
 
 
 ### list all users (admin token)
@@ -38,3 +38,24 @@ Content-Type: application/json
 POST https://localhost:443/users/profil
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiMiIsInJvbGUiOiJyZWdpc3RlcmVkIiwiaWF0IjoxNjIxMTc0MjMwLCJleHAiOjE2MjI3OTU3MDUxMDh9.xuJ2VaBLSN11U2Jaaezn0ABWFoYnRScBO5uWN4sPPVo
 
+
+### user trying to delete others account
+//@no-log
+POST https://localhost:443/users/delete
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiMiIsInJvbGUiOiJyZWdpc3RlcmVkIiwiaWF0IjoxNjIxMTc0MjMwLCJleHAiOjE2MjI3OTU3MDUxMDh9.xuJ2VaBLSN11U2Jaaezn0ABWFoYnRScBO5uWN4sPPVo
+Content-Type: application/json
+
+{
+  "userID": "5"
+}
+
+
+### user deleting own account
+//@no-log
+POST https://localhost:443/users/delete
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNCIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNjI1NTcxNDkwLCJleHAiOjE2MjcxOTczNjE2NjB9.p7miJ-LAK0bjnQoUJdU1Cs9dMUewqrQsZB5urPmCKYs
+Content-Type: application/json
+
+{
+  "userID": "4"
+}

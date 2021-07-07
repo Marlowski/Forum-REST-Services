@@ -1,14 +1,24 @@
-#Campfire REST-Service manual
+# Campfire REST-Service manual
 
-##Table of Contents
+## Table of Contents
+[Changelog](#changelog)<br/>
 [Noteworthy features](#features)<br/>
 [Default config file](#config)</br>
 [Token variables](#general)<br/>
 [Regular testing](#testing)<br/>
 [Mocha Chai testing](#chai)<br/>
 
+<a name="header" id="changelog"></a>
+## Changelog
+#### version 1.1
+* All used Server responses are now exclusively returning JSON-content instead of a mix of JSON & String responses
+* The route https://localhost:443/message/has-unread can now be used to check, wheter the user has unread messages or not. Therefor the Server ONLY returns true or false and no error messages
+* when using https://localhost:443/messages/open you can now parse the attribute view with the param 'sent' to not trigger the read status change and keep the message as unread
+* to check if the message, post or comment belongs to the accessing user, compare the mongoose _id attribute and not the created UserID 
+  <br/>-> therefor userID now only serves as simplification of _id to parse to each other
+
 <a name="header" id="features"></a>
-##REST noteworthy features
+## REST noteworthy features
 * **User roles**: *admin*, *user*, *registered*
 * **Register service**, including verification email
 * **Newsletter service**
@@ -17,7 +27,7 @@
 * **commentary entity for posts**
 
 <a id="config" name="header"></a>
-##Default config file structur
+## Default config file structur
 Tokens used in testing, need to be newly generated if not using default used testing token 'abcd'.
 Also an own certificate is required. place certificationes in /certificates.
 <br/>config/default.json
@@ -53,24 +63,24 @@ Also an own certificate is required. place certificationes in /certificates.
 ```
 
 <a id="general" name="header"></a>
-##General (tokens)
+## General (tokens)
 There are 3 default tokens used in various test files,
 that were generated in the past and are now reused for testing
 purposes. Of course can the tester generate new tokens but is then forced
 to refactor all test files, if he wants to use those freshly generated
 tokens in later tests as well.
 
-###the admin token: 
+### the admin token: 
 ```sh
 eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiMSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTYyMTE3NDQxMywiZXhwIjoxNjIyNzk1ODg3NTE5fQ.M-Rm9DUUIs_PzgVEV1ICDOOasVFjIgAezhSsHy6FWSk
 ```
 
-###the user with the *'registered* status' token: 
+### the user with the *'registered* status' token: 
 ```sh
 eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiMiIsInJvbGUiOiJyZWdpc3RlcmVkIiwiaWF0IjoxNjIxMTc0MjMwLCJleHAiOjE2MjI3OTU3MDUxMDh9.xuJ2VaBLSN11U2Jaaezn0ABWFoYnRScBO5uWN4sPPVo
 ```
 
-###the normal verified user token:
+### the normal verified user token:
 ```sh
 eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiMiIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNjIxMjAyMjc0LCJleHAiOjE2MjI4MjM3NzY4NDJ9.exmgjYmcObyDuzd0LDS_d_yXqkAJBNxg06-vv-14KjM
 ```
@@ -84,15 +94,15 @@ beforehand.
 
 #
 <a id="testing" name="header"></a>
-##Basic testing
-####In the following section the different test file requirements and purposes are explained in detail:
+## Basic testing
+#### In the following section the different test file requirements and purposes are explained in detail:
 **********
-###[admin.http](REST-tests/admin.http)
+### [admin.http](REST-tests/admin.http)
 * **manually create user as admin**
 * **manually delete user as admin**
 
 *************
-###[register.http](REST-tests/register.http)
+### [register.http](REST-tests/register.http)
 * **register new Account**
 <br/>Its important to <span style="color: red">paste a real email adress here</span> to receive the validation email,
 but can also be left like that, since the validation code is logged and can be copied from the console
@@ -114,7 +124,7 @@ but can also be left like that, since the validation code is logged and can be c
 ```
 
 *********
-###[user.http](REST-tests/user.http)
+### [user.http](REST-tests/user.http)
 * **login (here with admin account)**
 Even though this is the user file and not the admin file, the admin token is
 used, since this account doesnt need to be added manually
@@ -142,7 +152,7 @@ Content-Type: application/json
 ```
 
 *********
-###[message.http](REST-tests/message.http)
+### [message.http](REST-tests/message.http)
 * **send message to user**
 <br/>Send a private message to a user. Since by default the user passed an
   email adress when registering, he will get an email notification including
@@ -176,7 +186,7 @@ Content-Type: application/json
   ```
   
 *****
-###[newsletter.http](REST-tests/newsletter.http)
+### [newsletter.http](REST-tests/newsletter.http)
 * **subscribe to the newsletter**
 <br/>Subscribe to the newsletter (not subscribed by default)
 ####  
@@ -194,7 +204,7 @@ An admin can pass a *subject* and *text* to send as a newsletter to all currentl
   ```
 
 *****
-###[forum.http](REST-tests/forum.http) <span style="color: lightblue">- admin only functions</span>
+### [forum.http](REST-tests/forum.http) <span style="color: lightblue">- admin only functions</span>
 The REST-services provided in this file are only for potential usages in the future if
 a new forum beside the existing default ones is required
 ####
@@ -209,7 +219,7 @@ a new forum beside the existing default ones is required
 
 
 *****
-###[post.http](REST-tests/post.http)
+### [post.http](REST-tests/post.http)
 * **create post**
   ```json
     {
@@ -240,7 +250,7 @@ a new forum beside the existing default ones is required
 
 
 *****
-###[comment.http](REST-tests/comment.http)
+### [comment.http](REST-tests/comment.http)
 * **create comment**
   ```json
     {
@@ -263,7 +273,7 @@ a new forum beside the existing default ones is required
 
 *****
 <a id="chai" name="header"></a>
-#Chai testing<br/>[go to file](REST-tests/chai.js)
+# Chai testing<br/>[go to file](REST-tests/chai.js)
 Get an overview of each chai testing section,
 if it can be directly run from *describe* or needs some
 parameters, that are generated during the test run.
@@ -273,7 +283,7 @@ and lower specific testing parts.
 
 Each testing part shows what kind of assertions are made.
 
-* ###register user process <span style="color: red">cant just run describe</span>
+* ### register user process <span style="color: red">cant just run describe</span>
     * #### register user
       - status(200)
     * #### register user with same email / username
@@ -285,39 +295,39 @@ Each testing part shows what kind of assertions are made.
     * #### verify user <span style="color: red">paste verify code first</span>
       - status(200)
     
-* ###user account testing <span style="color: green">can be run from describe</span>
-    * ####get user list
+* ### user account testing <span style="color: green">can be run from describe</span>
+    * #### get user list
       - status(200)
       - body be json
       - include json keys ['userID', 'username', 'role']
-    * ####change password / change password back
+    * #### change password / change password back
       - status(200)
-    * ####non admin trying to change password of other account
+    * #### non admin trying to change password of other account
       - status(403)
-    * ####get user profil data
+    * #### get user profil data
       - status(200)
       - body be json
       - include json keys ['userID', 'username', 'role']
     
-* ###message system <span style="color: red">cant just run describe</span>
-    * ####send message <span style="color: lightblue">from user(id:2) to admin(id:1)</span>
+* ### message system <span style="color: red">cant just run describe</span>
+    * #### send message <span style="color: lightblue">from user(id:2) to admin(id:1)</span>
       - status(200)
-    * ####get all messages sent to user <span style="color: lightblue">user(id:2)</span>
-      - status(200)
-      - body be json
-      - include json keys ['fromUserID','toUserID','subject', 'context']
-    * ####get all messages that were sent by the user
+    * #### get all messages sent to user <span style="color: lightblue">user(id:2)</span>
       - status(200)
       - body be json
       - include json keys ['fromUserID','toUserID','subject', 'context']
-    * ####get received message alone <span style="color: red">paste _id:ObjectId from the database</span>
+    * #### get all messages that were sent by the user
+      - status(200)
+      - body be json
+      - include json keys ['fromUserID','toUserID','subject', 'context']
+    * #### get received message alone <span style="color: red">paste _id:ObjectId from the database</span>
       ```html
       action is set to read
       /messages/open?id=objectId&action=read
       ```
       - status(200)
       - body be json
-    * ####delete message
+    * #### delete message
       ```html
       action is set to delete
       /messages/open?id=objectId&action=delete
@@ -325,8 +335,8 @@ Each testing part shows what kind of assertions are made.
       - status(200)
       - body be html
     
-* ###Newsletter service <span style="color: green">can be run from describe</span>
-    * ####send Newsletter <span style="color: lightblue">(admin only)</span>
+* ### Newsletter service <span style="color: green">can be run from describe</span>
+    * #### send Newsletter <span style="color: lightblue">(admin only)</span>
       ```json
       {
           "subject": "email title",
@@ -334,19 +344,19 @@ Each testing part shows what kind of assertions are made.
       }
       ```
       - status(200)
-    * ####subscribe / unsubscribe from newsletter <span style="color: lightblue">default: false</span>
+    * #### subscribe / unsubscribe from newsletter <span style="color: lightblue">default: false</span>
       - status(200)
 
-* ###forum structure <span style="color: lightblue">(admin only)</span> <span style="color: green">can be run from describe</span>
-    * ####create forum
+* ### forum structure <span style="color: lightblue">(admin only)</span> <span style="color: green">can be run from describe</span>
+    * #### create forum
         - status(200)
-    * ####rename forum
+    * #### rename forum
         - status(200)
-    * ####delete forum
+    * #### delete forum
         - status(200)
     
-* ###post structure <span style="color: red">cant just run describe</span>
-    * ####create post
+* ### post structure <span style="color: red">cant just run describe</span>
+    * #### create post
       ```json
       {
           "title": "post title",
@@ -355,25 +365,25 @@ Each testing part shows what kind of assertions are made.
       }
       ```
       - status(200)
-    * ####user trying to delete other users post <span style="color: red">paste _id:ObjectId from the database</span>
+    * #### user trying to delete other users post <span style="color: red">paste _id:ObjectId from the database</span>
         - status(403)
-    * ####edit post <span style="color: red">paste _id:ObjectId from the database</span>
+    * #### edit post <span style="color: red">paste _id:ObjectId from the database</span>
         - status(200)
-    * ####delete post <span style="color: red">paste _id:ObjectId from the database</span>
+    * #### delete post <span style="color: red">paste _id:ObjectId from the database</span>
         - status(200)
-    * ####view specific post <span style="color: red">paste _id:ObjectId from the database</span>
+    * #### view specific post <span style="color: red">paste _id:ObjectId from the database</span>
         - status(200)
         - body to be json
         - include json keys ['postTitle','createdAt','postedByUserID', 'forumName', 'forumID', 'content']
-    * ####view all own posts
+    * #### view all own posts
         - status(200)
         - body to be an array
-    * ####view all posts from one forum
+    * #### view all posts from one forum
         - status(200)
         - body to be an array
     
-* ###comment structur <span style="color: red">cant just run describe</span>
-    * ####create comment <span style="color: red">paste _id:ObjectId (from post) from the database</span>
+* ### comment structur <span style="color: red">cant just run describe</span>
+    * #### create comment <span style="color: red">paste _id:ObjectId (from post) from the database</span>
       ```json
       {
       "postId": "PostId from post where comment should be posted on",
@@ -381,12 +391,12 @@ Each testing part shows what kind of assertions are made.
       }
       ```
       - status(200)
-    * ####view all comments from a post <span style="color: red">paste _id:ObjectId (from post) from the database</span>
+    * #### view all comments from a post <span style="color: red">paste _id:ObjectId (from post) from the database</span>
       - status(200)
       - body to be an array
-    * ####user trying to delete other users comment <span style="color: red">paste _id:ObjectId from the database</span>
+    * #### user trying to delete other users comment <span style="color: red">paste _id:ObjectId from the database</span>
       - status(403)
-    * ####edit comment <span style="color: red">paste _id:ObjectId (from post) from the database</span>
+    * #### edit comment <span style="color: red">paste _id:ObjectId (from post) from the database</span>
       ```json
       {
       "commentId": "id of comment to be edited",
@@ -394,8 +404,8 @@ Each testing part shows what kind of assertions are made.
       }
       ```
       - status(200)
-    * ####view all own comments
+    * #### view all own comments
       - status(200)
       - body to be an array
-    * ####delete comment <span style="color: red">paste _id:ObjectId (from post) from the database</span>
+    * #### delete comment <span style="color: red">paste _id:ObjectId (from post) from the database</span>
       - status(200)

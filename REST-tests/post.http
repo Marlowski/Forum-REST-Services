@@ -37,7 +37,7 @@ Content-Type: application/json
 }
 
 ### view specific post (copy ObjectId from db for postId)
-https://localhost:443/post/view?postId=60aad2e19bb01441de37f0f0
+https://localhost:443/post/view?postId=60d6781f8d2c44985c7e0632
 
 ### view all posts created by user
 https://localhost:443/post/own
@@ -50,5 +50,5 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiMSIsInJvb
 Content-Type: application/json
 
 {
-  "postId": "60aad2e19bb01441de37f0f0"
+  "postId": "60d985038236d6a35d79ffd2"
 }

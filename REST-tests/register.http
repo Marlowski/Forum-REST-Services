@@ -17,7 +17,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiMiIsInJvb
 
 
 ### verify new account (paste created token)
-https://localhost:443/register/verify?mailtoken=lwK6oFYFkaCsfX95W4eYVewo6
+GET https://localhost:443/register/verify?mailtoken=lwK6oFYFkaCsfX95W4eYVewo6
 
 
 ### relog for new token (2:password)

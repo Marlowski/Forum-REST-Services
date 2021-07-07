@@ -2,10 +2,12 @@ const UserImport = require('./userModel');
 const User = UserImport.User;
 const config = require('config');
 const logger = require('../../config/winston');
+const userRoles = require('./userRoles');
+const ac = userRoles.AccesControlObj;
 
 function getUsers(callback) {
     User.find()
-        .select('userID username email role newsletter')
+        .select('userID username email role newsletter createdAt')
         .exec(function (err, users) {
             if(err || !users) {
                 logger.error("Error during user list query");
@@ -51,13 +53,12 @@ function findUserByMail(mail, callback) {
 
 function findUserByUsername(username, callback) {
     User.findOne({ username : username })
-        .select('userID username email role')
         .exec(function (err, user) {
             if(err || !user) {
                 logger.debug('couldnt query for user by username');
                 return callback("couldnt query for user by username", null);
             } else {
-                logger.debug('Found user  while querying for username');
+                logger.debug('Found user while querying for username');
                 return callback(null, user);
             }
         });
@@ -187,16 +188,23 @@ function changePassword(userID, newPassword, callback) {
     });
 }
 
-function deleteAccount(userId, callback) {
+function deleteAccount(deleteId, role, id, callback) {
+    //check permission level - if not admin compare usernames if they're the same
+    const pms = ac.can(role).deleteAny('account');
+    if(!pms.granted) {
+        if(id !== deleteId) {
+            return callback({msg: "You're not allowed to delete accounts of others", status: 403});
+        }
+    }
     //mongoose doesnt throw an error if non existing-userid is passed so check for returned result
-    User.findOneAndDelete({ userID: userId }, function (err, result) {
-       if(err || !result) {
-           logger.error("error during account deletion");
-           callback("An error occured while trying to delete an account with the userID: " + userId);
-       } else {
-           logger.info("account deleted successfully");
-           callback(null);
-       }
+    User.findOneAndDelete({ userID: deleteId }, function (err, result) {
+        if(err || !result) {
+            logger.error("error during account deletion");
+            callback({msg: "An error occured while trying to delete an account with the userID: " + deleteId, status: 500});
+        } else {
+            logger.info("account deleted successfully");
+            callback(null);
+        }
     });
 }
 

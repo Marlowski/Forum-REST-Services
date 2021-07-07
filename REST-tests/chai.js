@@ -59,7 +59,7 @@ describe('Register user process', () => {
         chai
             .request(host)
             .post('/authenticate/login')
-            //Auth.: Basic 2:password
+            //Auth.: Basic username:password
             .set({ "Authorization": "Basic MjpwYXNzd29yZA==" })
             .end(function (err, res) {
                 expect(res).to.have.status(200);

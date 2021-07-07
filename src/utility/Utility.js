@@ -3,18 +3,17 @@ const config = require('config');
 const logger = require('../../config/winston');
 
 function decodeCredentials(req, callback) {
-    console.log(req.headers.authorization);
     logger.debug('check for Basic Auth. credentials');
     if(!req.headers.authorization || req.headers.authorization.indexOf('Basic') === -1) {
-        callback(true, null);
+        return callback(true, null);
     }
 
     logger.debug('decode credentials');
     const base64Credentials = req.headers.authorization.split(' ')[1];
     const credentials= Buffer.from(base64Credentials, 'base64').toString('ascii');
-    const[userID, password] = credentials.split(':');
+    const[username, password] = credentials.split(':');
     logger.debug('credentials successfully decoded');
-    callback(false, {userID, password});
+    return callback(false, {username, password});
 }
 
 function isAuthenticated(req, res, next) {

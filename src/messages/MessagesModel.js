@@ -4,11 +4,14 @@ const userService = require('../user/userService');
 
 
 const MessagesSchema = new mongoose.Schema({
+        fromUser: String,
         fromUserID: String,
+        toUser: String,
         toUserID: String,
         toUserMail: String,
         subject: String,
         context: String,
+        read: { type: Boolean, default: false },
         deleted: { type: Boolean, default: false },
         createdAt: { type: Date, default: Date.now }
     },
@@ -17,10 +20,11 @@ const MessagesSchema = new mongoose.Schema({
 MessagesSchema.pre('save', function (next) {
     let messageData = this;
 
-    if(messageData.isModified('deleted')) return next();
+    //only send mail when data is saved after it got created, not when updated with delete or read attr.
+    if(messageData.isModified('deleted') || messageData.isModified('read')) return next();
 
     if(messageData.toUserMail) {
-        userService.findUserById(messageData.fromUserID, function (err, fromUserData) {
+        userService.findUserByUsername(messageData.fromUser, function (err, fromUserData) {
             if(err) {
                 next(err);
             } else {

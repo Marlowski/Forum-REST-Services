@@ -14,7 +14,7 @@ Content-Type: application/json
 ###expected to have registered and verified user with UserId:2 in db existing
 ### get all messages sent to user
 https://localhost:443/messages
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiMSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTYyMTIwNDA3NSwiZXhwIjoxNjIyODI1NTc5NTg2fQ.1rFFYrzo9d9k_u5XvCP70a9wcWxWHbZKi1Ghr0jxTXE
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiMSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTYyMTE3NDQxMywiZXhwIjoxNjIyNzk1ODg3NTE5fQ.M-Rm9DUUIs_PzgVEV1ICDOOasVFjIgAezhSsHy6FWSk
 
 
 ### get all messages that were sent by the user
@@ -23,10 +23,20 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiMiIsInJvb
 
 
 ### read a specific message that was sent to the user (paste ObjectId from database here)
-https://localhost:443/messages/open?id=60aacd5ebdb5963e8721d3b1&action=read
+https://localhost:443/messages/open?id=60df372be49c30de664048cc&action=read
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiMSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTYyMTIwNDA3NSwiZXhwIjoxNjIyODI1NTc5NTg2fQ.1rFFYrzo9d9k_u5XvCP70a9wcWxWHbZKi1Ghr0jxTXE
+
+
+### read a specific message that the user sent (paste ObjectId from database here) (not triggering 'read' status change)
+https://localhost:443/messages/open?id=60df372be49c30de664048cc&action=read&view=sent
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiMSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTYyMTIwNDA3NSwiZXhwIjoxNjIyODI1NTc5NTg2fQ.1rFFYrzo9d9k_u5XvCP70a9wcWxWHbZKi1Ghr0jxTXE
 
 
 ###delete specific message that was sent to the user (paste ObjectId from database here)
-https://localhost:443/messages/open?id=60aad079651970400bc01a2c&action=delete
+https://localhost:443/messages/open?id=60df2b2b7fb7dadc7b8eaafa&action=delete
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiMSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTYyMTE3NDQxMywiZXhwIjoxNjIyNzk1ODg3NTE5fQ.M-Rm9DUUIs_PzgVEV1ICDOOasVFjIgAezhSsHy6FWSk
+
+
+### check if user has unread messages
+https://localhost:443/messages/has-unread
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiMSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTYyMTIwNDA3NSwiZXhwIjoxNjIyODI1NTc5NTg2fQ.1rFFYrzo9d9k_u5XvCP70a9wcWxWHbZKi1Ghr0jxTXE

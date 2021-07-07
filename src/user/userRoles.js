@@ -12,6 +12,7 @@ let grantObjects = {
         account: {
             'read:any': ['*'],
             'update:own': ['*'],
+            'delete:own': ['*']
         },
         message: {
             'create:own': ['*'],
@@ -23,6 +24,7 @@ let grantObjects = {
         },
         comment: {
             'create:own': ['*'],
+            'update:own': ['*'],
             'read:any': ['*'],
             'delete:own': ['*']
         }
@@ -31,9 +33,14 @@ let grantObjects = {
         post: {
             'read:any': ['*'],
         },
+        message: {
+            'read:own': ['*'],
+            'delete:own': ['*']
+        },
         account: {
             'read:any': ['*'],
             'update:own': ['*'],
+            'delete:own': ['*']
         }
     },
     admin: {

@@ -66,13 +66,13 @@ router.post('/rename', utility.isAuthenticated, function (req, res) {
 
 router.post('/posts', function (req, res) {
     if(!req.body.forumName) {
-        res.status(400).send('missing forum name');
+        res.status(400).send({message: 'missing forum name'});
     } else {
         forumService.getPostsFromForum(req.body.forumName, function (err, posts) {
             if(err) {
-                res.status(500).send(err);
+                res.status(500).send({message: err});
             } else {
-                res.send(posts);
+                res.send({message: posts});
             }
         });
     }

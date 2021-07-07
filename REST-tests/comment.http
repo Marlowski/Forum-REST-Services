@@ -15,8 +15,8 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiMSIsInJvb
 Content-Type: application/json
 
 {
-  "postId": "60aacb9ec3e4483e6bf2e6ae",
-  "content": "awesome post!"
+  "postId": "60d6781f8d2c44985c7e0632",
+  "content": "this post was really interesting..."
 }
 
 ### User trying to delete other users comment (paste ObjectId from db)

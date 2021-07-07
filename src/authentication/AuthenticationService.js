@@ -14,7 +14,7 @@ function createSessionToken(props, callback) {
     }
 
     // props is the given json body eg. JSON {} with user data -> see .http test file
-    userService.findUserById(props.userID, function (error, user) {
+    userService.findUserByUsername(props.username, function (error, user) {
         if(user) {
             logger.debug('Found user, check password');
             user.comparePassword(props.password, function (err, isMatch) {
