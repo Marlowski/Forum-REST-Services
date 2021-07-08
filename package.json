@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "devStart": "nodemon ./src/server.js"
+    "devStart": "nodemon ./src/server.js",
+    "startProxy": " nodemon ./src/proxy.js"
   },
   "author": "Marlon Kerth",
   "license": "ISC",
@@ -24,6 +25,7 @@
     "chai-arrays": "^2.2.0",
     "config": "^3.3.6",
     "cors": "^2.8.5",
+    "http-proxy-middleware": "^2.0.1",
     "jsonwebtoken": "^8.5.1",
     "mocha": "^8.4.0",
     "nodemailer": "^6.6.0",

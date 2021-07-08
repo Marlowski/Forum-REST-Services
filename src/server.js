@@ -13,8 +13,6 @@ const bodyParser = require('body-parser');
 const logger = require('../config/winston');
 const cors = require('cors');
 
-
-
 const app = express();
 const server = https.createServer({key: key, cert: cert}, app);
 app.use(cors());
@@ -81,7 +79,6 @@ app.use(function (req, res, next, err) {
     logger.error(err);
     res.status(500).send('Something broke!');
 });
-
 
 server.listen(443);
 module.exports = app; //for chai tests

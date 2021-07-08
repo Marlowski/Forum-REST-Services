@@ -50,7 +50,7 @@ function sendEmail(data, callback) {
         } else {
             mailService.sendVerificationMail({email: data.email, username: data.username, token: token }, function (err) {
                if(err) {
-                   return callback(err);
+                   return callback("couldnt send verification mail.");
                } else {
                    return callback(null);
                }

@@ -20,7 +20,7 @@ function sendVerificationMail(data, callback) {
     }
     smtpTransport.sendMail(mailOptions, function (err, response) {
         if(err) {
-            logger.error('couldnt send verification email')
+            logger.error('couldnt send verification email');
             return callback(err);
         } else {
             logger.debug("verification email send");
